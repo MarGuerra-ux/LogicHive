@@ -1,4 +1,4 @@
-# Organizador Marco 2.6
+# Logiv Hive
 
 Proyecto web simple para abrir en Visual Studio Code o Visual Studio.
 
