@@ -1,4 +1,4 @@
-# Logiv Hive
+# LogicHive
 
 Proyecto web simple para abrir en Visual Studio Code o Visual Studio.
 
