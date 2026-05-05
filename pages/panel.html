@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel principal</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="top-card">
+      <div>
+        <h1>📌 Panel principal</h1>
+        <p id="panelContext">Grupo seleccionado.</p>
+      </div>
+
+      <button class="btn secondary" onclick="location.href='grupos.html'">
+        Volver
+      </button>
+    </header>
+
+    <!-- =============================== -->
+    <!-- TABS -->
+    <!-- =============================== -->
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="scrum">Scrum</button>
+      <button class="tab" data-tab="calendario">Calendario</button>
+      <button class="tab" data-tab="apuntes">Apuntes</button>
+      <button class="tab" data-tab="lista">Lista</button>
+      <button class="tab" data-tab="negra">Lista Negra</button>
+      <button class="tab" data-tab="sorteo">Sorteo</button>
+      <button class="tab" data-tab="encuestas">Encuestas</button>
+    </nav>
+
+    <!-- =============================== -->
+    <!-- SCRUM -->
+    <!-- =============================== -->
+
+    <section id="scrum" class="tab-panel active card">
+      <h2>Scrum</h2>
+
+      <div class="scrum-toolbar">
+        <button class="btn primary" onclick="addTask()">Agregar tarea</button>
+        <button class="btn success" onclick="addColumn()">Agregar columna</button>
+        <button class="btn secondary" onclick="renameSelectedColumn()">Renombrar columna</button>
+        <button class="btn danger" onclick="deleteSelectedColumn()">Eliminar columna</button>
+      </div>
+
+      <div class="scrum-form">
+        <input id="taskTitle" placeholder="Nueva tarea..." />
+
+        <select id="taskPermission">
+          <option value="Solo lectura">Solo lectura</option>
+          <option value="Edición">Edición</option>
+          <option value="Eliminación">Eliminación</option>
+        </select>
+
+        <select id="columnSelect"></select>
+      </div>
+
+      <div id="kanbanBoard" class="kanban"></div>
+    </section>
+
+    <!-- =============================== -->
+    <!-- RESTO -->
+    <!-- =============================== -->
+
+    <section id="calendario" class="tab-panel card">
+      <h2>Calendario</h2>
+      <input id="eventInput" placeholder="Nuevo evento"/>
+      <button class="btn primary" onclick="addSimpleItem('events','eventInput','eventList')">Agregar evento</button>
+      <ul id="eventList" class="simple-list"></ul>
+    </section>
+
+    <section id="apuntes" class="tab-panel card">
+      <h2>Apuntes</h2>
+      <textarea id="noteInput" placeholder="Escribe un apunte"></textarea>
+      <button class="btn primary" onclick="addSimpleItem('notes','noteInput','noteList')">Guardar apunte</button>
+      <ul id="noteList" class="simple-list"></ul>
+    </section>
+
+    <section id="lista" class="tab-panel card">
+      <h2>Lista</h2>
+      <input id="listInput" placeholder="Nuevo elemento"/>
+      <button class="btn primary" onclick="addSimpleItem('list','listInput','listOutput')">Agregar</button>
+      <ul id="listOutput" class="simple-list"></ul>
+    </section>
+
+    <section id="negra" class="tab-panel card">
+      <h2>Lista Negra</h2>
+      <input id="blackInput" placeholder="Elemento"/>
+      <button class="btn danger" onclick="addSimpleItem('blacklist','blackInput','blackList')">Agregar</button>
+      <ul id="blackList" class="simple-list"></ul>
+    </section>
+
+    <section id="sorteo" class="tab-panel card">
+      <h2>Sorteo</h2>
+      <textarea id="raffleInput" placeholder="Nombres separados por coma"></textarea>
+      <button class="btn warning" onclick="runRaffle()">Sortear</button>
+      <h3 id="raffleResult"></h3>
+    </section>
+
+    <section id="encuestas" class="tab-panel card">
+      <h2>Encuestas</h2>
+      <input id="pollInput" placeholder="Pregunta"/>
+      <button class="btn primary" onclick="createPoll()">Crear encuesta</button>
+      <div id="pollOutput"></div>
+    </section>
+
+  </main>
+
+  <!-- 🔥 ORDEN CORRECTO -->
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+
+  <!-- Estado local -->
+  <script src="../js/data.js"></script>
+
+  <!-- Lógica -->
+  <script src="../js/panel.js"></script>
+
+</body>
+</html>

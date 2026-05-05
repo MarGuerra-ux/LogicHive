@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+  <main class="container center-screen">
+    <section class="card login-card">
+      <h1>📝 Registro de alumno</h1>
+
+      <label>Nombre completo</label>
+      <input id="fullNameInput" placeholder="Ej: Marco Guerra" />
+
+      <label>Teléfono</label>
+      <input id="phoneInput" placeholder="+56912345678" />
+
+      <label>Correo (opcional)</label>
+      <input id="emailInput" type="email" />
+
+      <label>Carrera</label>
+      <select id="careerSelect"></select>
+
+      <label>Sección</label>
+      <select id="sectionSelect"></select>
+
+      <button class="btn primary full" onclick="registerStudent()">
+        Registrarme
+      </button>
+
+      <button class="btn secondary full" onclick="location.href='../index.html'">
+        Volver
+      </button>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/registro.js"></script>
+</body>
+</html>

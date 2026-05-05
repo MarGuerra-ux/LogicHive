@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grupos</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+  <main class="container">
+    <header class="top-card">
+      <div>
+        <h1>👥 Grupos de la sección</h1>
+        <p id="sectionInfo">Sección seleccionada.</p>
+      </div>
+
+      <button class="btn secondary" onclick="logoutStudent()">
+        Salir
+      </button>
+    </header>
+
+    <section id="groupGrid" class="grid"></section>
+
+    <section id="groupAdmin" class="card admin-only">
+      <h2>🛠️ Panel de administración</h2>
+      <p>Visible solo para administradores. En esta vista solo se administran alumnos y grupos.</p>
+
+      <div class="grid admin-grid two">
+        <article class="mini-card">
+          <h3>👤 Administrador de alumnos</h3>
+          <p>Reubicar alumnos entre carreras, secciones y grupos.</p>
+
+          <button class="btn warning full" onclick="moveStudent()">Reubicar alumno</button>
+          <button class="btn secondary full" onclick="showStudents()">Ver alumnos</button>
+        </article>
+
+        <article class="mini-card">
+          <h3>👥 Administrador de grupos</h3>
+          <p>Crear, renombrar, eliminar grupos y cambiar claves.</p>
+
+          <button class="btn primary full" onclick="createGroup()">Crear grupo</button>
+          <button class="btn secondary full" onclick="renameGroup()">Renombrar grupo</button>
+          <button class="btn warning full" onclick="changeGroupKey()">Cambiar clave</button>
+          <button class="btn danger full" onclick="deleteGroup()">Eliminar grupo</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+
+  <!-- Estado local temporal -->
+  <script src="../js/data.js"></script>
+
+  <!-- Lógica de grupos -->
+  <script src="../js/grupos.js"></script>
+</body>
+</html>

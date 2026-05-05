@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carreras y Secciones</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="top-card">
+      <div>
+        <h1>🎓 Carreras y secciones</h1>
+        <p>Paso 2: selecciona una carrera y entra a una sección con clave numérica.</p>
+      </div>
+
+      <button class="btn secondary" onclick="logout()">Salir</button>
+    </header>
+
+    <section id="careerGrid" class="grid"></section>
+
+    <section id="academicAdmin" class="card admin-only">
+      <h2>⚙️ Panel de administración académica</h2>
+      <p>Visible solo para administradores. Aquí se separan las funciones de carreras y secciones.</p>
+
+      <div class="grid admin-grid">
+
+        <article class="mini-card">
+          <h3>🎓 Carreras</h3>
+          <p>Crear, renombrar o eliminar carreras del sistema.</p>
+
+          <button class="btn primary full" onclick="createCareer()">Crear carrera</button>
+          <button class="btn secondary full" onclick="renameCareer()">Renombrar carrera</button>
+          <button class="btn danger full" onclick="deleteCareer()">Eliminar carrera</button>
+        </article>
+
+        <article class="mini-card">
+          <h3>🧩 Secciones</h3>
+          <p>Crear, renombrar, eliminar secciones y cambiar claves de acceso.</p>
+
+          <button class="btn success full" onclick="createSection()">Crear sección</button>
+          <button class="btn secondary full" onclick="renameSection()">Renombrar sección</button>
+          <button class="btn danger full" onclick="deleteSection()">Eliminar sección</button>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 🔥 ORDEN CORRECTO -->
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+
+  <!-- Estado local (temporal) -->
+  <script src="../js/data.js"></script>
+
+  <!-- Lógica de la página -->
+  <script src="../js/carreras.js"></script>
+
+</body>
+</html>
