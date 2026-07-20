@@ -1,10 +1,23 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel principal</title>
-  <link rel="stylesheet" href="../css/styles.css" />
+  <title>Panel · LogicHive</title>
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+
+  <link rel="stylesheet" href="../css/sections/panel_inicio.css" />
+  <link rel="stylesheet" href="../css/sections/panel_scrum.css" />
+  <link rel="stylesheet" href="../css/sections/panel_calendario.css" />
+  <link rel="stylesheet" href="../css/sections/panel_apuntes.css" />
+  <link rel="stylesheet" href="../css/sections/panel_listas.css" />
+  <link rel="stylesheet" href="../css/sections/panel_sorteos.css" />
+  <link rel="stylesheet" href="../css/sections/panel_encuestas.css" />
+  <link rel="stylesheet" href="../css/sections/panel_configuraciones.css" />
 </head>
 
 <body>
@@ -12,117 +25,92 @@
 
     <header class="top-card">
       <div>
-        <h1>📌 Panel principal</h1>
-        <p id="panelContext">Grupo seleccionado.</p>
+        <h1>📌 Panel</h1>
+        <p id="panelContext">Cargando grupo...</p>
       </div>
 
-      <button class="btn secondary" onclick="location.href='grupos.html'">
-        Volver
-      </button>
+      <div style="display:flex;gap:10px">
+        <button class="btn secondary"
+                onclick="location.href='grupos.html'">
+          Grupos
+        </button>
+      </div>
     </header>
 
-    <!-- =============================== -->
-    <!-- TABS -->
-    <!-- =============================== -->
+    <nav class="tabs" style="flex-wrap:wrap">
 
-    <nav class="tabs">
-      <button class="tab active" data-tab="scrum">Scrum</button>
+      <button class="tab active" data-tab="inicio">Inicio</button>
       <button class="tab" data-tab="calendario">Calendario</button>
       <button class="tab" data-tab="apuntes">Apuntes</button>
-      <button class="tab" data-tab="lista">Lista</button>
-      <button class="tab" data-tab="negra">Lista Negra</button>
-      <button class="tab" data-tab="sorteo">Sorteo</button>
-      <button class="tab" data-tab="encuestas">Encuestas</button>
+      <button class="tab" data-tab="biblioteca">📚 Biblioteca</button>
+      <button class="tab" data-tab="maquetador">Maquetador</button>
+      <button class="tab" data-tab="asistente">Asistente IA</button>
+      <button class="tab" data-tab="mas">➕ Más</button>
+      <button class="tab" data-tab="configuraciones">⚙ Config</button>
+
     </nav>
 
-    <!-- =============================== -->
-    <!-- SCRUM -->
-    <!-- =============================== -->
+    <section id="inicio" class="tab-panel active"></section>
 
-    <section id="scrum" class="tab-panel active card">
-      <h2>Scrum</h2>
+    <section id="biblioteca" class="tab-panel"></section>
 
-      <div class="scrum-toolbar">
-        <button class="btn primary" onclick="addTask()">Agregar tarea</button>
-        <button class="btn success" onclick="addColumn()">Agregar columna</button>
-        <button class="btn secondary" onclick="renameSelectedColumn()">Renombrar columna</button>
-        <button class="btn danger" onclick="deleteSelectedColumn()">Eliminar columna</button>
-      </div>
+    <section id="mas" class="tab-panel"></section>
 
-      <div class="scrum-form">
-        <input id="taskTitle" placeholder="Nueva tarea..." />
+    <section id="scrum" class="tab-panel card"></section>
 
-        <select id="taskPermission">
-          <option value="Solo lectura">Solo lectura</option>
-          <option value="Edición">Edición</option>
-          <option value="Eliminación">Eliminación</option>
-        </select>
+    <section id="calendario" class="tab-panel"></section>
 
-        <select id="columnSelect"></select>
-      </div>
+    <section id="apuntes" class="tab-panel"></section>
 
-      <div id="kanbanBoard" class="kanban"></div>
+    <section id="maquetador" class="tab-panel card">
+      <div id="maquetadorWrap"></div>
     </section>
 
-    <!-- =============================== -->
-    <!-- RESTO -->
-    <!-- =============================== -->
-
-    <section id="calendario" class="tab-panel card">
-      <h2>Calendario</h2>
-      <input id="eventInput" placeholder="Nuevo evento"/>
-      <button class="btn primary" onclick="addSimpleItem('events','eventInput','eventList')">Agregar evento</button>
-      <ul id="eventList" class="simple-list"></ul>
+    <section id="asistente" class="tab-panel card">
+      <div id="asistenteWrap"></div>
     </section>
 
-    <section id="apuntes" class="tab-panel card">
-      <h2>Apuntes</h2>
-      <textarea id="noteInput" placeholder="Escribe un apunte"></textarea>
-      <button class="btn primary" onclick="addSimpleItem('notes','noteInput','noteList')">Guardar apunte</button>
-      <ul id="noteList" class="simple-list"></ul>
+    <section id="institucion" class="tab-panel card">
+      <div id="institucionWrap"></div>
     </section>
 
-    <section id="lista" class="tab-panel card">
-      <h2>Lista</h2>
-      <input id="listInput" placeholder="Nuevo elemento"/>
-      <button class="btn primary" onclick="addSimpleItem('list','listInput','listOutput')">Agregar</button>
-      <ul id="listOutput" class="simple-list"></ul>
+    <section id="grupos" class="tab-panel">
+      <div id="gruposTabWrap"></div>
     </section>
 
-    <section id="negra" class="tab-panel card">
-      <h2>Lista Negra</h2>
-      <input id="blackInput" placeholder="Elemento"/>
-      <button class="btn danger" onclick="addSimpleItem('blacklist','blackInput','blackList')">Agregar</button>
-      <ul id="blackList" class="simple-list"></ul>
-    </section>
-
-    <section id="sorteo" class="tab-panel card">
-      <h2>Sorteo</h2>
-      <textarea id="raffleInput" placeholder="Nombres separados por coma"></textarea>
-      <button class="btn warning" onclick="runRaffle()">Sortear</button>
-      <h3 id="raffleResult"></h3>
-    </section>
-
-    <section id="encuestas" class="tab-panel card">
-      <h2>Encuestas</h2>
-      <input id="pollInput" placeholder="Pregunta"/>
-      <button class="btn primary" onclick="createPoll()">Crear encuesta</button>
-      <div id="pollOutput"></div>
+    <section id="configuraciones" class="tab-panel">
+      <div id="configWrap"></div>
     </section>
 
   </main>
 
-  <!-- 🔥 ORDEN CORRECTO -->
-
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabaseClient.js"></script>
-
-  <!-- Estado local -->
   <script src="../js/data.js"></script>
 
-  <!-- Lógica -->
-  <script src="../js/panel.js"></script>
+  <script src="../js/core/modal_manager.js"></script>
+
+  <script src="../js/sections/panel_inicio.js"></script>
+  <script src="../js/sections/panel_biblioteca.js"></script>
+  <script src="../js/sections/panel_mas.js"></script>
+
+  <script src="../js/sections/panel_scrum.js"></script>
+  <script src="../js/sections/panel_calendario.js"></script>
+  <script src="../js/sections/panel_apuntes.js"></script>
+  <script src="../js/sections/panel_listas.js"></script>
+  <script src="../js/sections/panel_sorteos.js"></script>
+  <script src="../js/sections/panel_encuestas.js"></script>
+  <script src="../js/sections/panel_maquetador.js"></script>
+  <script src="../js/sections/panel_asistente.js"></script>
+  <script src="../js/sections/panel_institucion.js"></script>
+  <script src="../js/sections/panel_grupos_tab.js"></script>
+  <script src="../js/sections/panel_configuraciones.js"></script>
+  <script src="../js/panel_estatico_top.js"></script>
 
 </body>
-</html>
+</html>'''
+
+path = "/mnt/data/panel_corregido.html"
+Path(path).write_text(html, encoding="utf-8")
+print(path)
+

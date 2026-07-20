@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio · LogicHive</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/sections/panel_inicio.css" />
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="top-card">
+      <div>
+        <h1 id="saludoNombre">Bienvenido 👋</h1>
+        <p id="panelContext">Cargando tu grupo...</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="btn secondary" onclick="location.href='panel.html'">
+          Panel
+        </button>
+        <button class="btn secondary" onclick="logoutStudent()">
+          Salir
+        </button>
+      </div>
+    </header>
+
+    <!-- =============================== -->
+    <!-- FEED GRID                        -->
+    <!-- =============================== -->
+
+    <div class="inicio-grid">
+
+      <!-- ACTIVIDAD RECIENTE -->
+      <section class="card inicio-card-tall">
+        <div class="card-section-header">
+          <h2>Actividad reciente</h2>
+          <span class="card-badge">Tu grupo</span>
+        </div>
+        <div id="actividadLista">
+          <p class="muted-text">Cargando...</p>
+        </div>
+      </section>
+
+      <!-- COLUMNA DERECHA -->
+      <div class="inicio-col-derecha">
+
+        <!-- RESUMEN SCRUM -->
+        <section class="card">
+          <div class="card-section-header">
+            <h2>Tablero Scrum</h2>
+            <button class="btn-link" onclick="location.href='panel.html'">Ver →</button>
+          </div>
+          <div id="resumenGrupo">
+            <p class="muted-text">Cargando...</p>
+          </div>
+        </section>
+
+        <!-- PRÓXIMOS EVENTOS -->
+        <section class="card">
+          <div class="card-section-header">
+            <h2>Próximos eventos</h2>
+            <button class="btn-link" onclick="irATab('calendario')">Ver →</button>
+          </div>
+          <div id="proximosEventos">
+            <p class="muted-text">Cargando...</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+
+  <!-- Estado local -->
+  <script src="../js/data.js"></script>
+
+  <!-- Inicio -->
+  <script src="../js/inicio.js"></script>
+
+  <script>
+    function irATab(tab) {
+      localStorage.setItem("panel_tab_inicial", tab);
+      location.href = "panel.html";
+    }
+
+    function logoutStudent() {
+      localStorage.removeItem("active_student");
+      localStorage.removeItem("organizador_marco_v26");
+      location.href = "../index.html";
+    }
+
+    function renderContextHeader() {
+      const state = getState();
+      const ctx = document.getElementById("panelContext");
+      if (!ctx) return;
+      const student = JSON.parse(localStorage.getItem("active_student"));
+      if (!student) { location.href = "../index.html"; return; }
+      ctx.textContent = student.career_id
+        ? `${student.career_id.toUpperCase()} · Sección ${student.section_id || "–"} · ${student.group_id ? "Grupo activo" : "Sin grupo"}`
+        : "Sin carrera asignada";
+    }
+
+    renderContextHeader();
+    initInicio();
+  </script>
+</body>
+</html>

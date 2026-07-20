@@ -1,0 +1,45 @@
+/* ================================================
+   THEME.CSS — Variables CSS, tema claro/oscuro
+   ================================================ */
+
+:root {
+  --bg-primary:             #07101f;
+  --bg-secondary:           #0a1022;
+  --bg-card:                #111b31;
+  --color-text:             #f6f7fb;
+  --color-muted:            #6b7a99;
+  --color-accent:           #38bdf8;
+  --color-border:           #1e3a5f;
+  --color-btn-primary-bg:   #185fa5;
+  --color-btn-primary-text: #f0f8ff;
+  --color-danger:           #ef4444;
+  --color-success:          #22c55e;
+  --font-size-base:         14px;
+}
+
+[data-theme="light"] {
+  --bg-primary:             #f0f4f8;
+  --bg-secondary:           #e2e8f0;
+  --bg-card:                #ffffff;
+  --color-text:             #1a202c;
+  --color-muted:            #718096;
+  --color-accent:           #2563eb;
+  --color-border:           #cbd5e0;
+  --color-btn-primary-bg:   #2563eb;
+  --color-btn-primary-text: #ffffff;
+  --color-danger:           #dc2626;
+  --color-success:          #16a34a;
+}
+
+/* Aplicar variables a elementos base */
+.card, .top-card, .mini-card {
+  background: var(--bg-card);
+  border-color: var(--color-border);
+}
+
+.btn.primary {
+  background: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+}
+
+.muted-text { color: var(--color-muted); }
