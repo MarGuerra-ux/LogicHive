@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel · LogicHive</title>
+
+  <!-- Tema y base -->
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+
+  <!-- Secciones CSS -->
+  <link rel="stylesheet" href="../css/sections/panel_inicio.css" />
+  <link rel="stylesheet" href="../css/sections/panel_scrum.css" />
+  <link rel="stylesheet" href="../css/sections/panel_calendario.css" />
+  <link rel="stylesheet" href="../css/sections/panel_apuntes.css" />
+  <link rel="stylesheet" href="../css/sections/panel_listas.css" />
+  <link rel="stylesheet" href="../css/sections/panel_sorteos.css" />
+  <link rel="stylesheet" href="../css/sections/panel_encuestas.css" />
+  <link rel="stylesheet" href="../css/sections/panel_configuraciones.css" />
+</head>
+
+<body>
+  <main class="container">
+
+    <!-- HEADER -->
+    <header class="top-card">
+      <div>
+        <h1>📌 Panel</h1>
+        <p id="panelContext">Cargando grupo...</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn secondary" onclick="location.href='inicio.html'">Inicio</button>
+        <button class="btn secondary" onclick="location.href='grupos.html'">Grupos</button>
+      </div>
+    </header>
+
+    <!-- TABS — actualizados con nuevos nombres -->
+    <nav class="tabs" style="flex-wrap:wrap">
+      <button class="tab active" data-tab="inicio">🏠 Inicio</button>
+      <button class="tab" data-tab="scrum">📋 Scrum</button>
+      <button class="tab" data-tab="calendario">📅 Calendario</button>
+      <button class="tab" data-tab="apuntes">📝 Apuntes</button>
+      <button class="tab" data-tab="biblioteca">📚 Biblioteca</button>
+      <button class="tab" data-tab="chat">💬 Chat</button>
+      <button class="tab" data-tab="mensajeria">✉ Mensajería</button>
+      <button class="tab" data-tab="anuncios">📢 Anuncios</button>
+      <button class="tab" data-tab="constructor_ia">🔨 Constructor IA</button>
+      <button class="tab" data-tab="agentes_ia">🤖 Agentes IA</button>
+      <button class="tab" data-tab="lista">📃 Listas</button>
+      <button class="tab" data-tab="sorteo">🎲 Sorteos</button>
+      <button class="tab" data-tab="encuestas">📊 Encuestas</button>
+      <button class="tab" data-tab="grupos">👥 Grupos</button>
+      <button class="tab" data-tab="institucion">🏛 Institución</button>
+      <button class="tab" data-tab="configuraciones">⚙ Config</button>
+    </nav>
+
+    <!-- SECCIONES -->
+
+    <section id="inicio" class="tab-panel active"></section>
+
+    <section id="scrum" class="tab-panel card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <h2 style="margin:0">Tablero Scrum</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary"   onclick="addTask()">＋ Tarea</button>
+          <button class="btn secondary" onclick="addColumn()">＋ Columna</button>
+          <button class="btn secondary" onclick="renameSelectedColumn()">Renombrar col.</button>
+          <button class="btn danger"    onclick="deleteSelectedColumn()">Eliminar col.</button>
+        </div>
+      </div>
+      <div class="scrum-form">
+        <input id="taskTitle" placeholder="Nueva tarea..." />
+        <select id="taskPermission">
+          <option value="member">Miembro</option>
+          <option value="owner">Owner</option>
+          <option value="readonly">Solo lectura</option>
+        </select>
+        <select id="columnSelect"></select>
+      </div>
+      <div id="kanbanBoard" class="kanban"></div>
+    </section>
+
+    <section id="calendario" class="tab-panel">
+      <div class="cal-action-bar">
+        <button class="cal-action-btn cal-action-add"    onclick="triggerAction('add')">＋ Agregar</button>
+        <button class="cal-action-btn cal-action-edit"   onclick="triggerAction('edit')">✎ Editar</button>
+        <button class="cal-action-btn cal-action-delete" onclick="triggerAction('delete')">✕ Eliminar</button>
+      </div>
+      <div class="cal-layout">
+        <div class="cal-col-left card">
+          <div class="cal-header">
+            <button class="btn secondary" onclick="prevMonth()">‹</button>
+            <h2 id="calMonthLabel" style="margin:0;font-size:15px;text-align:center;flex:1">Cargando...</h2>
+            <button class="btn secondary" onclick="nextMonth()">›</button>
+          </div>
+          <div id="calLeyenda" class="cal-leyenda" style="margin-bottom:10px"></div>
+          <div class="cal-semana-labels">
+            <span>Lun</span><span>Mar</span><span>Mié</span>
+            <span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+          </div>
+          <div id="calGrid" class="cal-grid"></div>
+        </div>
+        <div class="cal-col-right card">
+          <h3 style="font-size:15px;margin:0 0 10px">Próximos eventos</h3>
+          <p class="muted-text" style="font-size:12px;margin:0 0 12px">Tocá un evento para seleccionarlo.</p>
+          <div id="eventList"></div>
+        </div>
+      </div>
+      <div id="calModalOverlay"
+           style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center"
+           onclick="if(event.target===this)closeActionModal()">
+        <div id="calModalBox"
+             style="background:var(--bg-card);border:1px solid var(--color-border);border-radius:16px;padding:24px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto">
+        </div>
+      </div>
+    </section>
+
+    <section id="apuntes" class="tab-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h2 style="margin:0">Apuntes</h2>
+        <button class="btn primary" onclick="newNote()">＋ Nuevo apunte</button>
+      </div>
+      <div id="notesGrid" class="notes-grid"></div>
+      <div id="noteModalOverlay"
+           style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center"
+           onclick="if(event.target===this)closeNoteModal()">
+        <div id="noteModalBox"></div>
+      </div>
+    </section>
+
+    <section id="biblioteca" class="tab-panel card">
+      <div id="bibliotecaWrap"><p class="muted-text">Cargando biblioteca...</p></div>
+    </section>
+
+    <section id="chat" class="tab-panel card">
+      <div id="chatWrap"><p class="muted-text">Chat grupal — próximamente.</p></div>
+    </section>
+
+    <section id="mensajeria" class="tab-panel card">
+      <div id="mensajeriaWrap"><p class="muted-text">Mensajería privada — próximamente.</p></div>
+    </section>
+
+    <section id="anuncios" class="tab-panel card">
+      <div id="anunciosWrap"><p class="muted-text">Anuncios — próximamente.</p></div>
+    </section>
+
+    <section id="constructor_ia" class="tab-panel card">
+      <div id="constructorIaWrap"><p class="muted-text">Constructor IA — próximamente.</p></div>
+    </section>
+
+    <section id="agentes_ia" class="tab-panel card">
+      <div id="agentesIaWrap"><p class="muted-text">Agentes IA — próximamente.</p></div>
+    </section>
+
+    <section id="lista" class="tab-panel">
+      <div style="display:flex;gap:8px;margin-bottom:20px;align-items:center">
+        <input id="newListTitle" type="text" placeholder="Nombre de la nueva lista..."
+               style="flex:1" onkeydown="if(event.key==='Enter')createList()">
+        <button class="btn primary" onclick="createList()">＋ Crear lista</button>
+      </div>
+      <div id="listsWrap"></div>
+    </section>
+
+    <section id="sorteo" class="tab-panel">
+      <div class="cal-layout">
+        <div class="card">
+          <h2 style="margin:0 0 14px">Nuevo sorteo</h2>
+          <input id="raffleTitle" type="text" placeholder="Título del sorteo"
+                 style="width:100%;margin-bottom:10px">
+          <textarea id="raffleParticipants"
+                    placeholder="Participantes, uno por línea o separados por coma..."
+                    style="width:100%;min-height:120px;margin-bottom:12px;resize:vertical"></textarea>
+          <button class="btn primary" onclick="createRaffle()">Crear sorteo</button>
+        </div>
+        <div class="card">
+          <h2 style="margin:0 0 14px">Historial</h2>
+          <div id="raffleHistorial"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="encuestas" class="tab-panel">
+      <div class="cal-layout">
+        <div class="card">
+          <h2 style="margin:0 0 14px">Nueva encuesta</h2>
+          <input id="pollQuestion" type="text" placeholder="Pregunta..."
+                 style="width:100%;margin-bottom:10px">
+          <textarea id="pollOptions" placeholder="Opciones, una por línea..."
+                    style="width:100%;min-height:100px;margin-bottom:12px;resize:vertical"></textarea>
+          <button class="btn primary" onclick="createPoll()">Crear encuesta</button>
+        </div>
+        <div class="card">
+          <h2 style="margin:0 0 14px">Encuestas activas</h2>
+          <div id="pollsWrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="grupos" class="tab-panel">
+      <div style="margin-bottom:16px">
+        <h2 style="margin:0;font-size:17px">Mis grupos</h2>
+      </div>
+      <div id="gruposTabWrap"></div>
+    </section>
+
+    <section id="institucion" class="tab-panel card">
+      <div id="institucionWrap"><p class="muted-text">Institución — próximamente.</p></div>
+    </section>
+
+    <section id="configuraciones" class="tab-panel">
+      <div style="margin-bottom:16px">
+        <h2 style="margin:0;font-size:17px">Configuraciones</h2>
+        <p class="muted-text" style="font-size:13px;margin:4px 0 0">Personalizá tu experiencia en LogicHive.</p>
+      </div>
+      <div id="configWrap"></div>
+    </section>
+
+  </main>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/data.js"></script>
+
+  <!-- Core managers -->
+  <script src="../js/core/modal_manager.js"></script>
+
+  <!-- Secciones JS -->
+  <script src="../js/sections/panel_inicio.js"></script>
+  <script src="../js/sections/panel_biblioteca.js"></script>
+  <script src="../js/sections/panel_scrum.js"></script>
+  <script src="../js/sections/panel_calendario.js"></script>
+  <script src="../js/sections/panel_apuntes.js"></script>
+  <script src="../js/sections/panel_listas.js"></script>
+  <script src="../js/sections/panel_sorteos.js"></script>
+  <script src="../js/sections/panel_encuestas.js"></script>
+  <script src="../js/sections/panel_grupos_tab.js"></script>
+  <script src="../js/sections/panel_configuraciones.js"></script>
+  <script src="../js/sections/panel_anuncios.js"></script>
+  <script src="../js/sections/panel_chat.js"></script>
+  <script src="../js/sections/panel_mensajeria.js"></script>
+  <script src="../js/sections/panel_constructor_ia.js"></script>
+  <script src="../js/sections/panel_agentes_ia.js"></script>
+  <script src="../js/sections/panel_maquetador.js"></script>
+  <script src="../js/sections/panel_asistente.js"></script>
+  <script src="../js/sections/panel_institucion.js"></script>
+
+  <!-- Controlador principal — siempre último -->
+  <script src="../js/panel_estatico_top.js"></script>
+
+</body>
+</html>

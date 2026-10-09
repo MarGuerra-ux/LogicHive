@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis grupos · LogicHive</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+</head>
+
+<body>
+  <main class="container">
+
+    <header class="top-card">
+      <div>
+        <h1>Mis grupos</h1>
+        <p id="studentInfo">Cargando...</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn secondary" onclick="showJoinModal()">Unirse con código</button>
+        <button class="btn secondary" onclick="logoutStudent()">Salir</button>
+      </div>
+    </header>
+
+    <!-- GRUPOS DEL ESTUDIANTE -->
+    <section id="misGrupos">
+      <p class="muted-text">Cargando tus grupos...</p>
+    </section>
+
+    <!-- TODOS LOS GRUPOS (por sección) -->
+    <section id="todosGrupos" style="margin-top:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 style="margin:0;font-size:16px">Explorar grupos por sección</h2>
+        <select id="sectionFilter" onchange="cargarGruposPorSeccion(this.value)"
+          style="font-size:13px;padding:6px 10px;border-radius:8px;border:0.5px solid #1e3a5f;background:#0a1022;color:#d4ddf0">
+          <option value="">Seleccioná una sección...</option>
+        </select>
+      </div>
+      <div id="gruposSeccion"></div>
+    </section>
+
+    <!-- MODAL UNIRSE CON CÓDIGO -->
+    <div id="joinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;">
+      <div style="background:#111b31;border:1px solid #1e3a5f;border-radius:16px;padding:24px;width:100%;max-width:380px">
+        <h3 style="margin:0 0 16px;font-size:16px">Unirse con código</h3>
+        <input id="inviteCodeInput" type="text" placeholder="Ej: INF-G1A"
+          style="width:100%;margin-bottom:12px;text-transform:uppercase;letter-spacing:2px;font-size:16px;text-align:center">
+        <div style="display:flex;gap:8px">
+          <button class="btn primary" style="flex:1" onclick="joinByCode()">Unirse</button>
+          <button class="btn secondary" onclick="closeJoinModal()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/grupos.js"></script>
+</body>
+</html>
